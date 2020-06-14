@@ -3,7 +3,7 @@ from django.contrib import admin
 # Register your models here.
 from .models import *
 from django.utils.html import format_html
-from liststyle import ListStyleAdminMixin
+
 from django.utils.text import slugify
 
 
@@ -51,14 +51,14 @@ class StudentAdmin(admin.ModelAdmin):
 
 
 
-class PaymentAdmin(admin.ModelAdmin,ListStyleAdminMixin):
+class PaymentAdmin(admin.ModelAdmin):
 
 
     list_display = [
         'txn_id',
         'user',
         'amount',
-        'due_amount_html',
+        'due_amount',
         'type',
         'order_id',
         'txn_date',
@@ -68,18 +68,6 @@ class PaymentAdmin(admin.ModelAdmin,ListStyleAdminMixin):
 
     ]
 
-    def due_amount_html(self,obj):
-
-        if obj.due_amount == 0.0:
-            return format_html(
-                '<span style="color:green">{}</span>',
-                obj.due_amount
-            )
-        else:
-            return format_html(
-                '<span style="color:red">{}</span>',
-                obj.due_amount
-            )
 
     def get_row_css(self, obj, index):
         if obj.due_amount == 0.0:
