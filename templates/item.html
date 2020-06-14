@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load cart_template_tags %}
+    <div class="container-fluid px-lg-5 mt-3">
+    <div class="row px-lg-5">
+        <div class="col s12">
+            <div class="card">
+            <div class="row">
+                      <div class="col s12 l4">
+                           <div class="card-image">
+                            <img src="{{ object.image.url }}" alt="{{ object.title }}-cws"style="width:100%;height: 350px;object-fit: contain" >
+                </div>
+                      </div>
+
+                <div class="col s12 l8">
+                       <div class="card-content">
+                <h4 class="mt-0 text-capitalize">{{ object.title }}</h4>
+                <p class="small mb-3">Offered By: {{ object.instructor }}</p>
+
+                    <p class="small">{{ object.description }}</p>
+                    <h5 class="mt-4">
+                         {% if object.discount_price %}
+                                <span class="green-text"><strong>₹{{ object.discount_price}}</strong> </span>
+                                <del class="small">₹{{ object.price }}</del>
+                         {% else %}
+                                <span class="green-text"><strong>₹{{ object.price }}</strong></span>
+                         {% endif %}
+                    </h5>
+                    <a href="{{ object.get_add_to_cart_url }}" class="btn orange px-5 font-weight-bolder">Add to Cart</a>
+                       <p class="small mt-2"><b>Note:</b> Installments Plan Available</p>
+                </div>
+                </div>
+                </div>
+
+            </div>
+
+            <div class="card">
+                <div class="card-content">
+                    <div class="row">
+                        <div class="col l3 s12 m6">
+                            <h6 class="font-weight-normal grey-text">Session</h6>
+                            <p class="small"><b>Duration:</b> {{ object.duration|multiply:4 }} Weeks | {{ object.duration }} {% if object.duration > 1 %} Months {% else %} Month {% endif %}</p>
+                            <p class="small"><b>Commitment:</b>  12 Hours/Week</p>
+                        </div>
+                        <div class="col l3 s12 m6">
+                            <h6 class="font-weight-normal grey-text">Language</h6>
+                            <p class="small"><b>English</b></p>
+                        </div>
+                        <div class="col l3 s12 m6">
+                            <h6 class="font-weight-normal grey-text">Assignments</h6>
+                            <p class="small"><b>No of Assigments</b>: {{ object.assignments }}</p>
+                        </div>
+                        <div class="col l3 s12 m6">
+                            <h6 class="font-weight-normal grey-text">Course Format</h6>
+                            <p class="small"><b>Offline Labs & Theories, Online Assignments</b></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+
+
+    <div class="container-fluid px-lg-5" id="courses">
+        <div class="row px-lg-5 mx-lg-5">
+        <div class="col s12 text-center">
+            <h5 class="mb-1">Recommended Courses</h5>
+            <p class="small mt-0">Select any courses which is best fit for you</p>
+        </div>
+            {% for object in object_list %}
+                <div class="col s6 m3">
+                    <div class="card">
+                        <div class="card-image">
+                            <img src="{{ object.image.url }}" style="width:100%;height: 200px;object-fit: contain" class="">
+                        </div>
+                        <div class="card-stacked">
+                            <a href="{{ object.get_absolute_url }}" class="stretched-link text-black-50">
+                            <div class="card-content pb-1" title="{{ object.title }}">
+                                <h6 class="text-black-50 text-capitalize text-truncate" style="line-height: 1.4em"><strong>{{ object.title }}</strong></h6>
+                                <p class="small pt-2"><b>Offered By:</b> {{ object.instructor }}</p>
+                                <p class="small"><b>Durations: </b>{{ object.duration }} {% if object.duration > 1 %} Months {% else %} Month
+                                {% endif %}</p>
+                                <p class="small"><b>No of Assignments:</b> {{ object.assignments }}</p>
+                                <h6 class="pt-2 mb-0">
+                                    {% if object.discount_price %}
+                                            <span class="green-text"><strong>₹{{ object.discount_price}}</strong> </span>
+                                            <del class="small">₹{{ object.price }}</del>
+                                        {% else %}
+                                            <span class="green-text"><strong>₹{{ object.price }}</strong></span>
+                                    {% endif %}
+                                </h6>
+                            </div>
+                            </a>
+                            <div class="card-action">
+                                <a href="" class="btn blue">Know More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+
+        </div>
+    </div>
+
+{% endblock %}

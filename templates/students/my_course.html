@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <main>
+
+        <div class="container-fluid px-lg-5">
+            <div class="row">
+                <div class="col s12"></div>
+            </div>
+            <div class="row">
+               {% if order %}
+                    {% for item in order %}
+                            <div class="card">
+                                <div class="card-action">
+                                    {% for foo in item.items.all %}
+                                        <div class="row mb-0">
+                                            <div class="col s9">
+                                                <strong class="text-uppercase font-weight-bold">{{ foo.course.title }}</strong>
+                                            </div>
+
+                                        </div>
+                                        <div class="row mb-n3 mt-2">
+                                            <div class="col s6 text-center">
+                                                <p class="small grey-text">
+                                                    <strong>Duration: </strong>{{ foo.course.duration }} Months</p>
+                                            </div>
+                                            <div class="col s6 text-center">
+                                                <p class="small grey-text"><strong>Date of
+                                                    Join:</strong> {{ item.ordered_date|date }}</p>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                {% else %}
+                    <div class="card">
+                    <div class="card-content">
+                         <h5 class="mt-0">Explorer our Courses</h5>
+                        <p class="small">Be Skilled Start Learning</p>
+                        <a href="{% url 'homepage' %}#courses" class="btn blue mt-2">Find our Courses</a>
+                    </div>
+                   </div>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+{% endblock %}

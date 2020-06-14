@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class=" cyan darken-4">
+    <div class="container py-3">
+        <div class="row">
+            <div class="col l4 s12 hide-on-med-and-down">
+               <h4 class="white-text m-0"><b>LEARN COMPUTER <br>PROGRAMMING FOR INDUSTRY</b></h4>
+                <blockquote class="card mt-3">
+                    <div class="card-content py-1">
+                        <h6>1500+ Learners</h6>
+                        <h6>300+ Stories</h6>
+                        <h5>35+ Technologies</h5>
+
+                    </div>
+                </blockquote>
+            </div>
+            <div class="col l8 s12">
+                <blockquote class="card">
+                    <div class="card-content">
+                        <p class="grey-text text-darken-2 text-justify" style="text-align: justify"><i>Code With SadiQ</i> dispenses professional computer training. The training emphasizes on hands-on learning to make the students an ace in facing the various IT challenges of the real world.We will provide you with industry leading educational programs, starting from the basic courses to advanced professional courses. The fundamental success factor of this institution is the competent professionals who seize the opportunity to learn about new technologies.
+
+                        </p>
+                    </div>
+                </blockquote>
+
+                <div class="card accent-3">
+                    <blockquote>
+                        <div class="card-content">
+                            <strong class="grey-text text-darken-2"><u>We Believe</u>: Knowledge is not skill. Knowledge plus ten thousand times is skill.</strong>
+                        </div>
+                    </blockquote>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="container-fluid px-lg-5" id="courses">
+        <div class="row px-lg-5 mx-lg-5">
+        <div class="col s12 text-center">
+            <h5 class="mb-1">Our Courses</h5>
+            <p class="small mt-0">Select courses which is best fit for you</p>
+        </div>
+            {% for object in object_list %}
+                <div class="col s6 m3">
+                    <div class="card">
+                        <div class="card-image">
+                            <img src="{{ object.image.url }}" style="width:100%;height: 200px;object-fit: contain" class="">
+                        </div>
+                        <div class="card-stacked">
+                            <a href="{{ object.get_absolute_url }}" class="stretched-link text-black-50">
+                            <div class="card-content pb-1" title="{{ object.title }}">
+                                <h6 class="text-black-50 text-capitalize text-truncate" style="line-height: 1.4em"><strong>{{ object.title }}</strong></h6>
+                                <p class="small pt-2"><b>Offered By:</b> {{ object.instructor }}</p>
+                                <p class="small"><b>Durations: </b>{{ object.duration }} {% if object.duration > 1 %} Months {% else %} Month
+                                {% endif %}</p>
+                                <p class="small"><b>No of Assignments:</b> {{ object.assignments }}</p>
+                                <h6 class="pt-2 mb-0">
+                                    {% if object.discount_price %}
+                                            <span class="green-text"><strong>₹{{ object.discount_price}}</strong> </span>
+                                            <del class="small">₹{{ object.price }}</del>
+                                        {% else %}
+                                            <span class="green-text"><strong>₹{{ object.price }}</strong></span>
+                                    {% endif %}
+                                </h6>
+                            </div>
+                            </a>
+                            <div class="card-action">
+                                <a href="" class="btn blue">Know More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+
+        </div>
+    </div>
+
+{% endblock %}

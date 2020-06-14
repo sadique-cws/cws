@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main>
+
+    <div class="container-fluid px-4 mt-3">
+      <div class="row">
+            <div class="col s12 l6">
+                 <h6 class="text-capitalize">your Courses</h6>
+                     {% if order %}
+                    <div class="col s12">
+                        {% for item in order %}
+                            <div class="card">
+                                <div class="card-action">
+                                    {% for foo in item.items.all %}
+                                        <div class="row mb-0">
+                                            <div class="col s9">
+                                                <strong class="text-uppercase font-weight-bold">{{ foo.course.title }}</strong>
+                                            </div>
+
+                                        </div>
+                                        <div class="row mb-n3 mt-2">
+                                            <div class="col s6 text-center">
+                                                <p class="small grey-text">
+                                                    <strong>Duration: </strong>{{ foo.course.duration }} Months</p>
+                                            </div>
+                                            <div class="col s6 text-center">
+                                                <p class="small grey-text"><strong>Date of
+                                                    Join:</strong> {{ item.ordered_date|date }}</p>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                   <div class="card">
+                    <div class="card-content">
+                         <h5>Explorer our Courses</h5>
+                        <p class="small">Be Skilled Start Learning</p>
+                        <a href="{% url 'homepage' %}#courses" class="btn blue mt-2">View Courses</a>
+                    </div>
+                   </div>
+                {% endif %}
+
+            </div>
+            <div class="col s12 l6">
+               <h6 class="text-capitalize">your payments</h6>
+                <div class="row">
+                {% if order %}
+                    <div class="col s12">
+                        {% for item in order %}
+                                <div class="card">
+                                <div class="card shadow-none  mt-0 pt-0">
+                                        <table class="striped centered small">
+                                            <tr>
+                                                <td class="font-weight-bold text-capitalize grey-text">#id</td>
+                                                <td class="font-weight-bold text-capitalize grey-text">amount</td>
+                                                <td class="font-weight-bold text-capitalize grey-text">Type</td>
+                                                <td class="font-weight-bold text-capitalize grey-text">date</td>
+                                                <td class="font-weight-bold text-capitalize grey-text">due</td>
+                                                <td class="font-weight-bold text-capitalize grey-text">Status</td>
+                                            </tr>
+                                            {% for pay in item.payment.all %}
+                                            <tr>
+                                                <td>{{ pay.id }}</td>
+                                                <td>{{ pay.amount }}</td>
+                                                <td>{{ pay.payment_type }}</td>
+                                                <td>{{ pay.txn_date }}</td>
+
+                                                <td>
+                                                {% if pay.due_amount > 0.0 %}
+
+                                                    <span class="text-danger font-weight-bold">{{ pay.due_amount }}</span>
+                                                {% else %}
+                                                    <span class="text-success font-weight-bold">{{ pay.due_amount }}</span>
+                                                {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if pay.status %}
+                                                        <span class="btn green" disabled>Paid</span>
+                                                        {% else %}
+                                                        <span class="btn orange">Pending</span>
+                                                    {% endif %}
+                                                </td>
+                                              </tr>
+                                            {% endfor %}
+                                        </table>
+                                    </div>
+                                </div>
+                        {% endfor %}
+                </div>
+                    {% else %}
+                         <div class="card">
+                    <div class="card-content">
+                         <h6 class="text-capitalize">We haven't received the any Payment yet</h6>
+
+                    </div>
+                   </div>
+                {% endif %}
+
+            </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+{% endblock %}

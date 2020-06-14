@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    {% load cart_template_tags %}
+
+    <meta charset="UTF-8">
+    <title>code with sadiq</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script>
+
+        $(document).ready(function () {
+            M.AutoInit();
+        });
+    </script>
+    <style>
+        header, main, footer {
+            padding-left: 300px;
+        }
+
+        @media only screen and (max-width: 992px) {
+            header, main, footer {
+                padding-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="navbar-fixed">
+<nav>
+    <div class="nav-wrapper grey lighten-5 ">
+        <div class="container">
+        {% if user.is_authenticated %}
+            <a href="#" data-target="slide-out" class="sidenav-trigger show-on-large black-text"><i class="material-icons">menu</i></a>
+
+        {% endif %}
+
+            <a href="{% url 'homepage' %}" class="brand-logo">
+                <img src="{% static 'newlogo.png' %}" alt="logo cws" class="w-75 mt-3">
+            </a>
+            <ul class="right ">
+                <li>
+                    <a href="{% url 'order-summary' %}" class=" black-text"><i class="material-icons left mr-1">shopping_cart</i>Cart 
+                    <span class="right">
+                        <sup class="badge text-white red new px-2 py-1 circle">{{ request.user|cart_item_count }}</sup>
+                    </span>
+                </a>
+                </li>
+            </ul>
+            <ul class="right hide-on-med-and-down">
+
+                {% if user.is_authenticated %}
+                    <li><a class='dropdown-trigger black-text text-capitalize' href="{% url 'dashboard' %}" data-target='dropdown1' data-hover="true">
+                        {{ user.student.name }} <i class="material-icons left mx-1">person</i> <i class="material-icons right mx-1">arrow_drop_down</i>
+</a>
+                    </li>
+                    <ul id='dropdown1' class='dropdown-content ' style="min-width: 200px">
+                        <li><a href="{% url 'my-course' %}" class="black-text"><i class="material-icons left">computer</i>My Courses</a></li>
+                        <li><a href="{% url 'my-payments' %}" class="black-text"><i class="material-icons left">credit_card</i>My Payments</a></li>
+                        <li><a href="{% url 'dashboard' %}" class="black-text"><i class="material-icons left">dashboard</i>My Dashboard</a></li>
+                        <li><a href="{% url 'profile' %}" class="black-text">My Profile <i class="material-icons left">person</i></a></li>
+                        <li><a href="{% url 'account_logout' %}" class="white-text red ">Logout <i class="material-icons left">power_settings_new</i></a></li>
+                    </ul>
+                {% else %}
+                    <li><a href="{% url 'account_signup' %}" class="btn small orange darken-3">Apply For Admission</a></li>
+                    <li><a href="{% url 'account_login' %}" class="btn grey darken-3">Login </a></li>
+                {% endif %}
+
+            </ul>
+        </div>
+    </div>
+</nav>
+</div>
+    {% if user.is_authenticated %}
+
+<ul id="slide-out" class="sidenav {{ fixed }}" draggable="true">
+
+        <li>
+            <div class="user-view">
+                <div class="background black">
+                </div>
+                {% if request.user.student.image %}
+                    <a href="#user"><img class="circle" src="{{ request.user.student.image.url }}"></a>
+                {% endif %}
+                <a href="#name"><span class="white-text name">{{ request.user.student.name }}</span></a>
+                <a href="#email"><span class="white-text email">{{ request.user.student.email }}</span></a>
+            </div>
+        </li>
+    <li><a class="waves-effect" href="{% url 'dashboard' %}"><i class="material-icons">dashboard</i>Dashboard</a></li>
+    <li><a class="waves-effect" href="{% url 'my-payments' %}"><i class="material-icons">credit_card</i>My Payment</a></li>
+    <li><a class="waves-effect" href="{% url 'my-course'%}"><i class="material-icons">computer</i>My Course</a></li>
+    <li><a class="waves-effect" href="{% url 'profile' %}"><i class="material-icons">person</i>Profile</a></li>
+    <li><a class="waves-effect" href="{% url 'account_logout' %}?next=/accounts/login/"><i class="material-icons">power_settings_new</i>Logout</a></li>
+</ul>
+
+    {% endif %}
+
+{% if messages %}
+   <div class="container nav">
+    {% for message in messages %}
+        <div class="materialert {{ message.tags }}">
+		    <div class="material-icons">info_outline</div>
+		    {{ message }}
+		</div>
+ {% endfor %}
+   </div>
+{% endif %}
+
+{% block content %}
+
+{% endblock %}
+<script>
+    $(document).ready(function () {
+        $("input[type!='submit'],select,textarea").addClass("mdl-textfield__input");
+        $('.sidenav').sidenav();
+          $('.dropdown-trigger').dropdown({
+              'hover':true,
+              'coverTrigger':false,
+          });
+              var loc = window.location.href; // returns the full URL
+        console.log(loc)
+              if(/student/.test(loc)) {
+                $('.sidenav').addClass('sidenav-fixed');
+                $("nav").addClass("sidenav-padding");
+                $(".nav").css("padding-left","200px");
+              }
+
+    });
+
+</script>
+
+
+{% block extrajs %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,19 @@
+
+            <div class="row">
+                <div class="col s12 l4 offset-l4    ">
+
+                    <h6>Enter Amount to Pay</h6>
+                    <form action="{% url 'repayments' %}" method="post">
+                        {% csrf_token %}
+                       <div class="input-field input-group">
+                            <input type="hidden" name="ref_code" value="{{ item.ref_code }}">
+                            <input type="text" name="amount" value="{{ item.payment.last.due_amount }}">
+
+                        <span class="suffix">
+                            <input type="submit" name="send" class="btn green" value="Pay Online">
+                        </span>
+                       </div>
+
+                    </form>
+                </div>
+            </div>

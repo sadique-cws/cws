@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+         <main>
+            <div class="container mt-5">
+  <div class="row">
+  <div class="col s12">
+      <form action="" method="post">
+      {% csrf_token %}
+          <div class="row">
+          {% for form in form1 %}
+               <div class="col s6">
+                <div class="mdl-textfield mdl-js-textfield">
+                    <label class="mdl-textfield__label" for="sample1">{{ form.label }}</label>
+                    {{ form }}
+              </div>
+               </div>
+          {% endfor %}
+          </div>
+                  <div class="row">
+                      <div class="col s12">
+                          <input type="submit" class="btn btn-primary w-100">
+                      </div>
+                  </div>
+      </form>
+  </div>
+</div>
+</div>
+        </main>
+{% endblock %}
